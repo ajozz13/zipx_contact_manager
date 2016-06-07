@@ -5,7 +5,7 @@ function displayAlert( msg ){
 	Materialize.toast( msg, 4000);
 }
 function getServiceHost(){
-	$( "#innerContent" ).html( $("#preloader-big" ).html() );
+	$( "#innerContentHead" ).html( $("#preloader-big" ).html() );
 	return "https://api.pactrak.com";
 	//return window.location.protocol+"//"+window.location.hostname+":"+window.location.port;
 }
@@ -38,7 +38,7 @@ function head_success( data, status, httpRequest ){
 	var decoded = window.atob( b64token ).split( "|" );
 	$("#token").val( b64token );
 	$( "#logon_msg" ).html( "<b>Authenticated</b>" );
-	$( "#entrysection" ).show( 1500, function(){  toggleMe( "#float_btn" ); $( "#innerContent" ).empty(); } );
+	$( "#entrysection" ).show( 1500, function(){  toggleMe( "#float_btn" ); $( "#innerContent" ).empty(); $( "#innerContentHead" ).empty(); } );
 }
 function head_failure( httpRequest ){
 	var msg = httpRequest.getResponseHeader("Authority"); 
@@ -46,10 +46,12 @@ function head_failure( httpRequest ){
 	$( "#entrysection" ).hide( 1500, function(){ toggleMe( "#float_btn" ); } );
 	console.log( "Server Response: "+ msg );
 	$( "#innerContent" ).empty();
+	$( "#innerContentHead" ).empty();
 }
 //Display Table content
 function displayTable( jsonArray ){
 	$( "#innerContent" ).empty();
+	$( "#innerContentHead" ).empty();
 	var d = $("<div>").append( $("<h2>").text( "Station Address Book List" ) );
 	var m = $( "<ul/>" ).addClass( 'collection' );
 
@@ -75,6 +77,7 @@ function displayTable( jsonArray ){
 
 function displayTableAccordion( jsonArray ){
 	$( "#innerContent" ).empty();
+	$( "#innerContentHead" ).empty();
 	var d = $("<div/>").append( $("<h2>").text( "Station Address Book List" ) );
 	var m = $( "<ul/>" ).addClass( 'collapsible' ).attr( {"data-collapsible": "accordion", "id": "entrylist"} );
 
@@ -258,6 +261,7 @@ function toHTMLContactRow( v ){
 				row.effect( "highlight",  { color: '#FF8566' }, 3500 ).fadeOut( 300, function() {
 					$( this ).remove();
 				}); 
+				$( "#innerContentHead" ).empty();
 			});
 	});
 	row.append( $("<td />").html( sec2 ) );
@@ -287,6 +291,7 @@ function setServiceSwitch( value, for_id, cls ){
 		sendJSONRequest("PUT", getServiceURL( "zipx/addresses/"+for_id ), JSON.stringify( obj ), function( data ){ 
 			console.log( "service completed: " + JSON.stringify( data ) );
 			input.next( "label" ).text( !requesting ? no_service_label: service_label );
+			$( "#innerContentHead" ).empty();
 		}, function( data ) { 
 			default_error( data );
 			var label = no_service_label;
@@ -297,6 +302,7 @@ function setServiceSwitch( value, for_id, cls ){
 				input.removeAttr( "checked" );
 			}
 			input.next( "label" ).text( label );
+			$( "#innerContentHead" ).empty();
 		});	
 	} );
 	return $("<span/>").addClass( "mright" ).append( input ).append( label );
@@ -321,9 +327,11 @@ function setNoticeSwitch(value, for_id, for_name ){
 				obj["send_notices"] = requesting ? "Y" : "N";
 				sendJSONRequest("PUT", getServiceURL( "zipx/addresses/"+for_id+"/contacts" ), JSON.stringify( obj ), function( data ){ 
 					console.log( "service completed: " + JSON.stringify( data ) );
+					$( "#innerContentHead" ).empty();
 				}, function( data ) { 
 					default_error( data );
 					if( !requesting ){ input.prop( "checked", "true"); }else{ input.removeAttr( "checked" ); }
+					$( "#innerContentHead" ).empty();
 				});	
 		}); 
 	}
@@ -412,6 +420,7 @@ function setupUpdateForm( entry ){
 				holder.empty();
 				holder.append( presentFlatEntryValuesTable( v, 'address1', 'address2', 'city', 'state', 'zip', 'country', 'contact', 'phone', 'comments' ) );
 				holder.effect( "highlight",  { color: '#FFFF50' }, 3500 );
+				$( "#innerContentHead" ).empty();
 			});
 		}
 	});
@@ -545,6 +554,7 @@ $(function(){
 		clearForm( $(this).prev("form") );
 		$( "#entrysection" ).hide( 1500, function(){
 			$( "#innerContent" ).empty();
+			$( "#innerContentHead" ).empty();
 			$( "#logon_msg" ).empty();
 			$("#token").val('');
 			toggleMe( "#float_btn" );
@@ -596,6 +606,7 @@ $(function(){
 				var item = toHTMLContactRow( contact );
 				$("li[contact="+ contact.id +"]").find('table').append( item );
 				item.effect( "highlight",  { color: '#32CD32' }, 3500 );
+				$( "#innerContentHead" ).empty();
 			});
 		}
 	});
