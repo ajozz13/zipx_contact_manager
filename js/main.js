@@ -260,8 +260,9 @@ function toHTMLContactRow( v ){
 				var row = sec2.closest("tr");
 				row.effect( "highlight",  { color: '#FF8566' }, 3500 ).fadeOut( 300, function() {
 					$( this ).remove();
+					$( "#innerContentHead" ).empty();
 				}); 
-				$( "#innerContentHead" ).empty();
+				
 			});
 	});
 	row.append( $("<td />").html( sec2 ) );
