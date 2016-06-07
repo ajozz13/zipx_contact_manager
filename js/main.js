@@ -7,7 +7,6 @@ function displayAlert( msg ){
 function getServiceHost(){
 	$( "#innerContentHead" ).html( $("#preloader-big" ).html() );
 	return "https://api.pactrak.com";
-	//return window.location.protocol+"//"+window.location.hostname+":"+window.location.port;
 }
 
 function tokenTest(){
@@ -63,11 +62,9 @@ function displayTable( jsonArray ){
 		var l2 = $( "<p/>" );
 		var sec = $( "<a href='#!' class='secondary-content'> " );
 		sec.append( $( "<i class='material-icons'>" ).text( 'mode edit' ) );
-		//l1.empty(); title.empty();
 		title.append( v.account );
 		l1.append( v.name );
 		l2.append( presentFlatEntryValuesTable( v, 'address1', 'address2', 'city', 'state', 'zip', 'country', 'contact', 'phone', 'comments' ) );
-		//var l2 = joinIntoSpan( v.address1, v.address2, v.city, v.state, v.zip, v.country, v.contact, v.phone, v.comments );
 		li.append( i ).append( title ).append( l1 ).append( l2 ).append( sec );
 		m.append( li );
 	});
@@ -104,19 +101,15 @@ function displayTableAccordion( jsonArray ){
 				obj = arr[ 0 ];	
 			}
 			obj['account'] = v.account;
-			//obj['name'] = v.name;
-
-			//console.log( JSON.stringify( obj ) );
 			setupUpdateForm( obj );
 
 			event.preventDefault();
 		});
 
-		sec.append( upd );  //$( "<i class='material-icons' type='update'>" ).attr( "for", v.account ).text( 'mode edit' )
+		sec.append( upd );  
 		var lt = $( "<span/>" ).addClass( "col s5" ).append( i ).append( joinIntoSpan( v.account, v.name ) );
 
-		header.append( lt ); //.append( rt );
-		//console.log( JSON.stringify( v ) ); 
+		header.append( lt ); 
 		var l1 = $( "<p/>" );
 		l1.append( presentFlatEntryValuesTable( v, 'address1', 'address2', 'city', 'state', 'zip', 'country', 'contact', 'phone', 'comments' ) );
 		body.append( l1 );
@@ -128,7 +121,6 @@ function displayTableAccordion( jsonArray ){
 		m.append( li );
 	});
 	$( "#innerContent" ).html( d.append( m ) );
-	//assignAnchorOptions( "#entrylist" );
 	$( "#entrylist").collapsible();
 }
 
@@ -173,8 +165,7 @@ function presentEntryValuesTable(){
 
 function presentFlatEntryValuesTable(){
 	var obj = arguments[ 0 ];
-	var table = $( "<table/>" ).addClass( 'responsive-table striped smallertxt' );//.attr( 'for', obj['account'] );
-	//var cap = $("<caption/>").html( $("<h3/>").text( "Details" ) );
+	var table = $( "<table/>" ).addClass( 'responsive-table striped smallertxt' );
 	var thead = $( "<thead/>" );
 	var header = $( "<tr/>" );
 	var row = $( "<tr/>");
@@ -198,7 +189,6 @@ function presentEntryContacts( account, arrayContact, tableCaption ){
 	var sec = $( "<a/>" ).attr( "href", "#!").addClass( "secondary-content modal-trigger" );
 	sec.append( $( "<i class='material-icons'>" ).attr( "for", account ).text( 'add' ) );
 	sec.click(function( event ){
-		//console.log( "Add a new contact for "+ $(this).find("i").attr('for') );
 		clearForm( $( "#contactForm" ) );
 		$( "#contactId" ).text( $(this).find("i").attr('for') );
 		$("#addContact").openModal();
@@ -218,12 +208,10 @@ function createEntryItem( arrayContact, account ){
 			table.append( toHTMLContactRow( v ) );
 		});
 	}
-	//table.find( 'tr:last' ).append($( "<td/>" ).html( sec2 ) );
 	return $( "<li/>" ).addClass( "collection-item" ).attr( "contact", account  ).html( table );
 }
 
 function createHTMLContactTable( title ){
-	//console.log( JSON.stringify( obj ) );
 	var table = $( "<table/>" ).addClass( 'responsive-table smallertxt' );
 	if( title ){
 		var cap = $("<caption/>").html( title );
@@ -247,16 +235,12 @@ function toHTMLContactRow( v ){
 	var sec2 = $( "<a/>" ).attr( "href", "#!").addClass( "secondary-content" );
 	sec2.append( $( "<i class='material-icons'>" ).attr( {"for": v.id, "name": v.name } ).text( 'delete' ) );
 	sec2.click(function( event ){
-		//console.log( "ID: "+$(this).find("i").attr('for')  );
-		//console.log( "NAME: "+$(this).find("i").attr('name')  );
 		var id = $(this).find("i").attr('for');
 		var n = $(this).find("i").attr('name');
 
 			var url = getServiceURL( "zipx/addresses/"+id+"/contacts" );
 			//url = url.concat( "&"+$.param( { name : n } ) );
-			//
 			sendJSONRequest( "DELETE", url,JSON.stringify( { name : n } ), function( data ){
-				//console.log( "service completed: " + JSON.stringify( data ) );
 				var row = sec2.closest("tr");
 				row.effect( "highlight",  { color: '#FF8566' }, 3500 ).fadeOut( 300, function() {
 					$( this ).remove();
@@ -285,8 +269,6 @@ function setServiceSwitch( value, for_id, cls ){
 	var label = $("<label/>").attr( "for", for_id ).text( labelTxt );
 	input.change( function(){ 
 		var requesting = $(this).is(':checked');
-		//console.log( 'changed forID: ' + $(this).attr( 'id' ) + "  checked "+ requesting );  
-		//function sendJSONRequest( type, url, data, success_function, error_function ){
 		var obj = {};
 		obj["customer"] = { provide_service: requesting ? "Y" : "N" };
 		sendJSONRequest("PUT", getServiceURL( "zipx/addresses/"+for_id ), JSON.stringify( obj ), function( data ){ 
@@ -317,11 +299,9 @@ function setNoticeSwitch(value, for_id, for_name ){
 	if( for_name ){
 		input.attr( 	"for_name", for_name ); 
 		input.change( function(){
-				//console.log( 'changed forID: ' + $(this).attr( 'for' ) + " email: " + $(this).attr( 'for_name' )  + "  checked: "+ $(this).is(':checked') ); 
 				var requesting = $(this).is(':checked');
 				var for_id = $(this).attr( 'for' );
 				var for_name = $(this).attr( 'for_name' );
-				//function sendJSONRequest( type, url, data, success_function, error_function ){
 				var obj = {};
 				obj[ "id" ]= for_id;
 				obj[ "name"] = for_name;
@@ -394,19 +374,14 @@ function setupUpdateForm( entry ){
 	fillValue( "#addphone", entry.phone );
 	fillValue( "#addcomments", entry.comments );
 
-	//<a href="#!" class="waves-effect waves-green btn-flat">Update</a>
 	var upbtn = $( "<a/>").addClass( "waves-effect waves-green btn-flat" ).attr( "href", "#!" ).text( 'Update' );
 
 	upbtn.click( function(e){
-		//var changes = FormChangesToObject( 'entryForm' );
-		//console.log( JSON.stringify( changes ) );
 
 		if( $("#entry-form").valid() ){
 			$( "#addaccount" ).removeAttr( "disabled" );
-			//var entry = formToJson( $("#entryForm"), true );
 
 			var url = getServiceURL( "zipx/addresses/"+entry.account );
-			//function sendJSONRequest( type, url, data, success_function, error_function ){
 			var j_obj = {};
 			var v = formToJson( $("#entry-form"), true );
 			j_obj["customer"] = v;
@@ -540,7 +515,7 @@ $(function(){
 
 	$( "#login_btn" ).click( function(){
 		if( $("#logform").valid() ){
-			$("#token").val(''); //.empty();
+			$("#token").val(''); 
 			var url = getServiceHost()+"/authority/token?_zipx";
 			var creds = $( "#username" ).val()+"|"+$( "#password" ).val();
 			$.ajax({ type: "HEAD", url: url, 
@@ -566,7 +541,6 @@ $(function(){
 		if( tokenTest() ){
 			if( $("#account").val() ){
 				var url = getServiceURL( "zipx/addresses/"+$("#account").val() );
-				//function sendJSONRequest( type, url, data, success_function, error_function ){
 				sendJSONRequest( 'GET', url, null, function( data ){
 					if( $.isArray(data) ){
 						displayTableAccordion( data );
@@ -588,7 +562,6 @@ $(function(){
 		if( $("#contactForm").valid()  ){
 			var acct = $( "#contactId" ).text();
 			var url = getServiceURL( "zipx/addresses/"+acct+"/contacts" ); 
-			//function sendJSONRequest( type, url, data, success_function, error_function ){
 			var j_obj = {};
 			var contact = formToJson( "#contactForm" );
 			contact['id'] = acct;
@@ -599,8 +572,7 @@ $(function(){
 			}
 			var arr = [];
 			arr.push( contact );
-			j_obj[ "customer_contacts" ] = arr;   //{'feed':JSON.stringify( j_obj )}
-			//{"customer_contacts":[{"id":"92-0001","name":"email1","send_notices":"N","email":"test@test.com"}]}
+			j_obj[ "customer_contacts" ] = arr;   
 			sendJSONRequest( 'POST', url, JSON.stringify( j_obj ), function( data ){ 
 				console.log( "service completed: " + JSON.stringify( data ) );
 				$("#addContact").closeModal();
