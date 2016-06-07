@@ -1,0 +1,9 @@
+body{ font-family: 'Abel', sans-serif; font-size: 1.5em; }
+.bar{ background-color: #E57373;}
+.smalltxt{ font-size: .80em;}
+.smallertxt{ font-size: .75em;}
+.error{ font-size: .80em; color: #F44336; } 
+.fleft { float: left; }
+.fright { float: right; }
+.mright { margin: 10px; }
+
