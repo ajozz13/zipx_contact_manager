@@ -107,7 +107,7 @@ function displayTableAccordion( jsonArray ){
 		});
 
 		sec.append( upd );  
-		var lt = $( "<span/>" ).addClass( "col s5" ).append( i ).append( joinIntoSpan( v.account, v.name ) );
+		var lt = $( "<span/>" ).addClass( "col s12" ).append( i ).append( joinIntoSpan( v.account, v.name ) );
 
 		header.append( lt ); 
 		var l1 = $( "<p/>" );
