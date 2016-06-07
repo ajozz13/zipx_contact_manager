@@ -11,7 +11,10 @@ This client application consumes IBC's ZIPX address API ( https://api.pactrak.co
 
 Plugins 
  - JQuery Table to Json ( http://lightswitch05.github.io/table-to-json/ )
-  
+
+#Active accounts
+The application can be accessed through: http://www.ibcinc.com/zipx/contact/manager 
+ 
 For additional support information please contact  
 Alberto Ochoa  
 alberto.ochoa@ibcinc.com
