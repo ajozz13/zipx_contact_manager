@@ -107,10 +107,10 @@ function displayTableAccordion( jsonArray ){
 		});
 
 		sec.append( upd );  
-		var lt = $( "<span/>" ).addClass( "col s12" ).append( i ).append( joinIntoSpan( v.account, v.name ) );
+		var lt = $( "<span/>" ).addClass( "col s12 flow-text" ).append( i ).append( joinIntoSpan( v.account, v.name ) );
 
 		header.append( lt ); 
-		var l1 = $( "<p/>" );
+		var l1 = $( "<p/>" ).addClass("flow-text");
 		l1.append( presentFlatEntryValuesTable( v, 'address1', 'address2', 'city', 'state', 'zip', 'country', 'contact', 'phone', 'comments' ) );
 		body.append( l1 );
 		var t = presentEntryContacts( v.account, o.customer_contacts, "Contacts" );
@@ -151,7 +151,7 @@ function toTableHeaderRow(){
  *  This function expects as the first parameter the Object and then a list of the object keys to display.
  */
 function presentEntryValuesTable(){
-	var table = $( "<table/>" ).addClass( 'responsive-table striped smallertxt' );
+	var table = $( "<table/>" ).addClass( 'responsive-table striped' );
 	var obj = arguments[ 0 ];
 	for( var i=1; i < arguments.length; i++) {
 		var title = arguments[ i ];
@@ -165,7 +165,7 @@ function presentEntryValuesTable(){
 
 function presentFlatEntryValuesTable(){
 	var obj = arguments[ 0 ];
-	var table = $( "<table/>" ).addClass( 'responsive-table striped smallertxt' );
+	var table = $( "<table/>" ).addClass( 'responsive-table striped' );
 	var thead = $( "<thead/>" );
 	var header = $( "<tr/>" );
 	var row = $( "<tr/>");
@@ -196,7 +196,6 @@ function presentEntryContacts( account, arrayContact, tableCaption ){
 	var list = $( "<ul/>").addClass( "collection with-header").attr( "for", account );
 	var h = $( "<li/>" ).addClass("collection-header").append( $("<h4/>").text( tableCaption ).append( sec ) );
 	list.append( h );
-	var item = $( "<li/>" ).addClass( "collection-item" );
 	list.append( createEntryItem( arrayContact, account ) );
 	return l2.append( list );		
 }
@@ -208,11 +207,11 @@ function createEntryItem( arrayContact, account ){
 			table.append( toHTMLContactRow( v ) );
 		});
 	}
-	return $( "<li/>" ).addClass( "collection-item" ).attr( "contact", account  ).html( table );
+	return $( "<li/>" ).addClass( "collection-item flow-text" ).attr( "contact", account  ).html( table );
 }
 
 function createHTMLContactTable( title ){
-	var table = $( "<table/>" ).addClass( 'responsive-table smallertxt' );
+	var table = $( "<table/>" ).addClass( 'responsive-table' );
 	if( title ){
 		var cap = $("<caption/>").html( title );
 		table.append( cap );
