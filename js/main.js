@@ -510,7 +510,7 @@ $(function(){
 	});
 
 	$("#logform").validate({ rules: { username: { required: true, email:true }, password: { required: true, minlength: 5 } } });
-	$("#contactForm").validate( { rules: { name: { required: true, maxlength:63 }, email: { required: false, email: true, maxlength:25 }, phone:{ required: false, maxlength:25 } , description:{ required: false, maxlength:25 }  } });
+	$("#contactForm").validate( { rules: { name: { required: true, maxlength:63 }, email: { required: false, email: true, maxlength:75 }, phone:{ required: false, maxlength:25 } , description:{ required: false, maxlength:25 }  } });
 
 	$( "#login_btn" ).click( function(){
 		if( $("#logform").valid() ){
