@@ -151,7 +151,7 @@ function toTableHeaderRow(){
  *  This function expects as the first parameter the Object and then a list of the object keys to display.
  */
 function presentEntryValuesTable(){
-	var table = $( "<table/>" ).addClass( 'responsive-table striped' );
+	var table = $( "<table/>" ).addClass( 'responsive-table striped smalltxt' );
 	var obj = arguments[ 0 ];
 	for( var i=1; i < arguments.length; i++) {
 		var title = arguments[ i ];
@@ -165,7 +165,7 @@ function presentEntryValuesTable(){
 
 function presentFlatEntryValuesTable(){
 	var obj = arguments[ 0 ];
-	var table = $( "<table/>" ).addClass( 'responsive-table striped' );
+	var table = $( "<table/>" ).addClass( 'responsive-table striped smalltxt' );
 	var thead = $( "<thead/>" );
 	var header = $( "<tr/>" );
 	var row = $( "<tr/>");
@@ -211,7 +211,7 @@ function createEntryItem( arrayContact, account ){
 }
 
 function createHTMLContactTable( title ){
-	var table = $( "<table/>" ).addClass( 'responsive-table' );
+	var table = $( "<table/>" ).addClass( 'responsive-table smallertxt' );
 	if( title ){
 		var cap = $("<caption/>").html( title );
 		table.append( cap );
