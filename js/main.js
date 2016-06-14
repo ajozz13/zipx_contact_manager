@@ -532,7 +532,7 @@ $(function(){
 			$( "#innerContentHead" ).empty();
 			$( "#logon_msg" ).empty();
 			$("#token").val('');
-			toggleMe( "#float_btn" );
+			$( "#float_btn" ).fadeOut( 1000 );
 		} );
 	});
 	
