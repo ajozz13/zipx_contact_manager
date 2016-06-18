@@ -241,10 +241,17 @@ function toHTMLContactRow( v ){
 			//url = url.concat( "&"+$.param( { name : n } ) );
 			sendJSONRequest( "DELETE", url,JSON.stringify( { name : n } ), function( data ){
 				var row = sec2.closest("tr");
-				row.effect( "highlight",  { color: '#FF8566' }, 3500 ).fadeOut( 300, function() {
+				flashme( row, '#FF8566', 3500, function(){
+					row.fadeOut( 300, function() {
+						$( this ).remove();
+						$( "#innerContentHead" ).empty();
+					});
+				});
+				
+				/*row.effect( "highlight",  { color: '#FF8566' }, 3500 ).fadeOut( 300, function() {
 					$( this ).remove();
 					$( "#innerContentHead" ).empty();
-				}); 
+				});*/ 
 				
 			});
 	});
@@ -394,7 +401,8 @@ function setupUpdateForm( entry ){
 				var holder = div.find( "p:first" );
 				holder.empty();
 				holder.append( presentFlatEntryValuesTable( v, 'address1', 'address2', 'city', 'state', 'zip', 'country', 'contact', 'phone', 'comments' ) );
-				holder.effect( "highlight",  { color: '#FFFF50' }, 3500 );
+				//holder.effect( "highlight",  { color: '#FFFF50' }, 3500 );
+				flashme( holder, '#FFFF50', 3500 );
 				$( "#innerContentHead" ).empty();
 			});
 		}
@@ -498,7 +506,15 @@ function toggleMe( target, hideF, showF ){
 		$( target ).show( 'bounce', 1000, showF );
 	}
 }
-	
+
+function flashme( target, color, delaytime, callback ){	
+	  var dtm = delaytime ? delaytime : 1000;
+	$(target).fadeTo('fast',0.2).fadeTo( 'slow', 1 ).css("background-color", color ).delay( dtm ).queue(function(){  
+		$(target).css( "background-color", "" ).removeAttr( "style" ); 
+		if (typeof callback === "function") { callback(); }
+		$(this).dequeue(); 
+	});
+}
 $(function(){
 	$.validator.setDefaults({
 		errorElement : 'div',
@@ -577,7 +593,8 @@ $(function(){
 				$("#addContact").closeModal();
 				var item = toHTMLContactRow( contact );
 				$("li[contact="+ contact.id +"]").find('table').append( item );
-				item.effect( "highlight",  { color: '#32CD32' }, 3500 );
+				//item.effect( "highlight",  { color: '#32CD32' }, 3500 );
+				flashme( item, '#32CD32', 3500 );
 				$( "#innerContentHead" ).empty();
 			});
 		}
