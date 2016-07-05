@@ -8,6 +8,195 @@
 <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" type="text/css"  href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css"  media="screen,projection"/>
 <link rel="stylesheet" type ="text/css" href="css/main.css" />
+</head>
+<body>
+<header>
+	<nav class="top-nav teal lighten-2">
+		<div class="container">
+			<div class="nav-wrapper">
+			<a href="#" class="brand-logo"><img src="http://www.ibcinc.com/hubfs/images/zipx/zipx-logo.png" alt="Zipx" height="80" width="155" /></a>
+			<ul id="nav-mobile" class="right hide-on-med-and-down">
+			<li><a href="sass.html">Sass</a></li>
+			<li><a href="badges.html">Components</a></li>
+			<li><a href="collapsible.html">JavaScript</a></li>
+			</ul>
+			</div>
+		</div>
+	</nav>
+
+</header>
+<div class="container topseparator">
+		
+<div class="row">
+	<div class="col s12">
+	  <ul class="tabs" id="tabs">
+	    <li class="tab col s3" id="auth_block"><a href="#auth">Authentication</a></li>
+	    <li class="tab col s3 disabled" id="addbook_block"><a href="#addbook">Address Book</a></li>
+	  </ul>
+	</div>
+	<div id="auth" class="col s12">
+		<div class="col s12 m6 l6">
+			<div class="section">
+			<form id="logform">
+				<div class="input-field">
+				<i class="material-icons prefix">account_circle</i>
+				<input id="username" name="username" type="email" required placeholder="This is the email address assigned as your username.">
+				<label for="username">Username: </label>
+				</div>
+				<div class="input-field">
+				<i class="material-icons prefix">check_circle</i>
+				<input id="password" name="password" type="password" required>
+				<label for="password">Password:</label>
+				</div>
+			</form>
+			<a class="btn-floating btn-small waves-effect waves-light red resetform" style="margin-right: 25px;"><i class="material-icons">refresh</i></a>
+			<button class="btn waves-effect waves-light" id="login_btn">Authenticate<i class="material-icons right">send</i></button>
+				
+			
+			<div><span id="logon_msg" class="smalltxt"></span><input type="hidden" id="token" /></div>
+			<div id='test'></div>
+			</div>
+		</div>
+		
+	</div>
+	<div id="addbook" class="col s12">
+		<div class="col s12 topseparator">
+			
+
+				<div class="col s12">
+					<a class="btn-floating btn-small waves-effect waves-light red right" id="logout_btn" style="margin-right: 25px;"><i class="material-icons">highlight_off</i></a>
+					<div class="col s4 offset-s4 card-panel teal lighten-4">
+						<p class="flow-text">Search by account or station code.</p>
+						<div class="input-field">
+						<span class="col s10">
+						<i class="material-icons prefix">search</i>
+						<input id="account" name="account" type="text"></span>
+						<span class="col s2">
+						<a class="btn-floating btn-small waves-effect waves-light blue" id="listentry"><i class="material-icons">view_list</i></a>
+						</span>
+						</div>
+						
+					</div>
+				</div>
+		
+
+		</div>
+		<div class="fixed-action-btn hide" style="bottom: 45px; right: 24px;" id='float_btn' >
+			<a class="btn-floating btn-large waves-effect waves-light blue" id="addEntry"><i class="material-icons">add</i></a>
+		</div>
+		<div class="col s12">
+			<div id="innerContentHead"></div>
+			<div id="innerContent"></div>
+			
+		</div>
+	</div>
+</div>	
+</div>
+	
+<!--  MODALS -->
+<div id="addContact" class="modal bottom-sheet">
+<div class="modal-content">
+<h4>Add A new contact for <span id="contactId"></span></h4>
+<form id="contactForm">
+	<div class="input-field">
+	<input  id="name" name="name" type="text" maxlength="63" required placeholder="Required. Use a unique name for each new entry ie: Email 1">
+	<label for="name">Unique name: </label>
+	</div>
+	<div>Only one of the values below is required.</div>
+	<div class="input-field">
+	<input id="email" name="email" type="email" maxlength="75">
+	<label for="email">Email: </label>
+	</div>
+	<div class="input-field">
+	<input id="phone" name="phone" type="text" maxlength="25">
+	<label for="phone">Phone: </label>
+	</div>
+	<div class="input-field">
+	<input id="description" name="description" type="text" maxlength="25">
+	<label for="description">Description: </label>
+	</div>
+</form>
+</div>
+<div class="modal-footer">
+	<a href="#!" class="waves-effect waves-green btn-flat" id="addContactBtn">Add</a>
+	<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</a>
+</div>
+</div>
+
+<div id="entryFormModal" class="modal">
+<div class="modal-content">
+<h4 id="entryFormTitle"></h4>
+<form id="entry-form">	
+	<div class='row'>
+		<div class="input-field col s6">
+		<input id="addaccount" name="account"  type="text" pattern="^\d{2}-\w{1,12}$" required>
+		<label for="addaccount">Zipx Account#</label>
+		</div>
+		<div class="input-field col s6">
+		<input id="addname" name="name" type="text" required maxlength="30">
+		<label for="addname">Name:</label>
+		</div>
+	</div>
+	<div>The fields below are optional.</div>
+	<div class='row'>
+		<div class="input-field col s6">
+		<input id="addaddress1" name="address1" type="text" maxlength="25">
+		<label for="addaddress1">Address 1:</label>
+		</div>
+		<div class="input-field col s6">
+		<input id="addaddress2" name="address2" type="text" maxlength="25">
+		<label for="addaddress2">Address 2:</label>
+		</div>
+	</div>
+	<div class='row'>
+		<div class="input-field col s4">
+		<input id="addcity" name="city" type="text" maxlength="25">
+		<label for="addcity">City:</label>
+		</div>
+		<div class="input-field col s4">
+		<input id="addstate" name="state" type="text" maxlength="2">
+		<label for="addstate">State:</label>
+		</div>
+		<div class="input-field col s4">
+		<input id="addzip" name="zip" type="text" maxlength="10">
+		<label for="addzip">Zip:</label>
+		</div>
+	</div>
+	<div class='row'>
+		<div class="input-field col s4">
+		<input id="addcountry" name="country" type="text" maxlength="15">
+		<label for="addcountry">Country:</label>
+		</div>
+		<div class="input-field col s4">
+		<input id="addphone" name="phone" type="text" maxlength="15">
+		<label for="addphone">Phone:</label>
+		</div>
+		<div class="input-field col s4">
+		<input id="addcontact" name="contact" type="text" maxlength="20">
+		<label for="addcontact">Contact:</label>
+		</div>
+	</div>
+	<div class='row'>
+		<div class="input-field col s6">
+		<input id="addcomments" name="comments" type="text" maxlength="40">
+		<label for="addcomments">Comments:</label>
+		</div>
+	</div>
+</form>
+</div>
+<div class="modal-footer">
+	<span id="entryFormFooter"></span>
+	<span><a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</a></span>
+</div>
+</div>
+
+<div class="hide" id="progressdiv">
+  <div class="progress">
+      <div class="indeterminate"></div>
+  </div>
+</div>
+
+</body>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
@@ -16,189 +205,5 @@
 <script type="text/javascript" src="http://cdn.wijmo.com/external/globalize.min.js"></script>
 <script type="text/javascript" src="http://www.ibcinc.com/hubfs/compose/libs/table/jquery.tabletojson.min.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
-	
-</head>
-<body>
-<div class="container">
-	<div class="row">
-		<div class="col s12 blue lighten-5"><h1><img src="http://www.ibcinc.com/hubfs/images/zipx/zipx-logo.png" alt="Zipx"/> Address Book Manager</h1></div>
-	</div>
-	<div class="row">
-		<div class="col s12 m4 l3">
-			<div class="section">
-			<h5>Logon</h5>
-			<form id="logform">
-				<div class="input-field">
-				<input id="username" name="username" type="email" class="validate">
-				<label for="username">Username: </label>
-				</div>
-				<div class="input-field">
-				<input id="password" name="password" type="password" class="validate">
-				<label for="password">Password:</label>
-				</div>
-			</form>
-			<a class="btn-floating btn-small waves-effect waves-light red resetform" style="margin-right: 25px;"><i class="material-icons">refresh</i></a>
-			<button class="btn waves-effect waves-light" id="login_btn">Authenticate
-				<i class="material-icons right">send</i>
-			</button>
-				
-			
-			<div><span id="logon_msg" class="smalltxt"></span><input type="hidden" id="token" /></div>
-			<div id='test'></div>
-			</div>
-			<br />
-			<div class="divider"></div>
-			<div class="section" id="entrysection" style='display: none;'>
-			<h5>View Entries</h5>
-				<div class="input-field col l10">
-				<input id="account" name="account" type="text">
-				<label for="account">Account or Station code: </label>
-				</div>
-				<div class="input-field col s2">
-					<a class="btn-floating btn-small waves-effect waves-light blue" id="listentry"><i class="material-icons">view_list</i></a>
-				</div>
-			</div>
-			<div class="divider"></div>
-			
-			<div class="fixed-action-btn" style="bottom: 45px; right: 24px; display: none;" id='float_btn' >
-			<a class="btn-floating btn-large waves-effect waves-light blue" id="addEntry"><i class="material-icons">add</i></a>
-			</div>
-		</div>
-		<div class="col s12 m8 l9">
-			<div id="innerContentHead"></div>
-			<div id="innerContent"></div>
-			
-		</div>
-		
-	</div>
-	<!--  MODALS -->
-	<div id="addContact" class="modal">
-		<div class="modal-content">
-		<h4>Add A new contact for <span id="contactId"></span></h4>
-		<form id="contactForm">
-			<div class="input-field">
-			<input placeholder="                          Required. Use a unique name for each new entry ie: Email 1" id="name" name="name" type="text">
-			<label for="name">Unique name: </label>
-			</div>
-			<div>Only one of the values below is required.</div>
-			<div class="input-field">
-			<input id="email" name="email" type="email">
-			<label for="email">Email: </label>
-			</div>
-			<div class="input-field">
-			<input id="phone" name="phone" type="text">
-			<label for="phone">Phone: </label>
-			</div>
-			<div class="input-field">
-			<input id="description" name="description" type="text">
-			<label for="description">Description: </label>
-			</div>
-		</form>
-		</div>
-		<div class="modal-footer">
-			<a href="#!" class="waves-effect waves-green btn-flat" id="addContactBtn">Add</a>
-			<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</a>
-		</div>
-	</div>
-	
-	<div id="entryFormModal" class="modal">
-		<div class="modal-content">
-		<h4 id="entryFormTitle"></h4>
-		<form id="entry-form">	
-			<div class='row'>
-				<div class="input-field col s6">
-				<input id="addaccount" name="account"  type="text" required pattern="^\d{2}-\w{1,12}$">
-				<label for="addaccount">Zipx Account#</label>
-				</div>
-				<div class="input-field col s6">
-				<input id="addname" name="name" type="text" required maxlength="30">
-				<label for="addname">Name:</label>
-				</div>
-			</div>
-			<div>The fields below are optional.</div>
-			<div class='row'>
-				<div class="input-field col s6">
-				<input id="addaddress1" name="address1" type="text" maxlength="25">
-				<label for="addaddress1">Address 1:</label>
-				</div>
-				<div class="input-field col s6">
-				<input id="addaddress2" name="address2" type="text" maxlength="25">
-				<label for="addaddress2">Address 2:</label>
-				</div>
-			</div>
-			<div class='row'>
-				<div class="input-field col s4">
-				<input id="addcity" name="city" type="text" maxlength="25">
-				<label for="addcity">City:</label>
-				</div>
-				<div class="input-field col s4">
-				<input id="addstate" name="state" type="text" maxlength="2">
-				<label for="addstate">State:</label>
-				</div>
-				<div class="input-field col s4">
-				<input id="addzip" name="zip" type="text" maxlength="10">
-				<label for="addzip">Zip:</label>
-				</div>
-			</div>
-			<div class='row'>
-				<div class="input-field col s4">
-				<input id="addcountry" name="country" type="text" maxlength="15">
-				<label for="addcountry">Country:</label>
-				</div>
-				<div class="input-field col s4">
-				<input id="addphone" name="phone" type="text" maxlength="15">
-				<label for="addphone">Phone:</label>
-				</div>
-				<div class="input-field col s4">
-				<input id="addcontact" name="contact" type="text" maxlength="20">
-				<label for="addcontact">Contact:</label>
-				</div>
-			</div>
-			<div class='row'>
-				<div class="input-field col s6">
-				<input id="addcomments" name="comments" type="text" maxlength="40">
-				<label for="addcomments">Comments:</label>
-				</div>
-			</div>
-		</form>
-		</div>
-		<div class="modal-footer">
-			<span id="entryFormFooter"></span>
-			<span><a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</a></span>
-		</div>
-	</div>
-</div>
-	
-<div id="preloader-big" style="visibility: hidden;">
-<div class="preloader-wrapper big active" >
-	<div class="spinner-layer spinner-blue">
-	<div class="circle-clipper left">
-		<div class="circle"></div>
-	</div><div class="gap-patch">
-		<div class="circle"></div>
-	</div><div class="circle-clipper right">
-		<div class="circle"></div>
-	</div>
-	</div>
-</div>
-</div>
-<div  id="preloader-small" style="visibility: hidden;">
-	<div class="preloader-wrapper small active">	
-		<div class="spinner-layer spinner-green">
-			<div class="circle-clipper left">
-				<div class="circle"></div>
-			</div><div class="gap-patch">
-				<div class="circle"></div>
-			</div><div class="circle-clipper right">
-			<div class="circle"></div>
-			</div>
-		</div>
-	</div>
-</div>
-<div id="progressbar" style="visibility: hidden;">
-	<div class="progress">
-		<div class="indeterminate"></div>
-	</div>
-</div>
-</body>
+
 </html>
