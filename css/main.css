@@ -1,3 +1,4 @@
+.html{line-height: 1.5; font-family: "Roboto", sans-serif !important;}
 .bar{ background-color: #E57373;}
 .smalltxt{ font-size: .80em;}
 .smallertxt{ font-size: .75em;}
@@ -5,4 +6,8 @@
 .fleft { float: left; }
 .fright { float: right; }
 .mright { margin: 10px; }
+.topseparator{ margin-top: 10px; }
+.tabs .tab a { color: #4db6ac; }
+.tabs .indicator { background-color: #4db6ac;}
+div.error{ margin-left: 55px; }
 

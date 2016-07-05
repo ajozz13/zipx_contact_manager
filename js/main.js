@@ -5,7 +5,7 @@ function displayAlert( msg ){
 	Materialize.toast( msg, 4000);
 }
 function getServiceHost(){
-	$( "#innerContentHead" ).html( $("#preloader-big" ).html() );
+	$( "#innerContentHead" ).html( $("#progressdiv" ).html() );
 	return "https://api.pactrak.com";
 }
 
@@ -37,16 +37,26 @@ function head_success( data, status, httpRequest ){
 	var decoded = window.atob( b64token ).split( "|" );
 	$("#token").val( b64token );
 	$( "#logon_msg" ).html( "<b>Authenticated</b>" );
-	$( "#entrysection" ).show( 1500, function(){  toggleMe( "#float_btn" ); $( "#innerContent" ).empty(); $( "#innerContentHead" ).empty(); } );
+	$("#addbook_block").removeClass( function(){  $(this).removeClass('disabled'); toggleMe( "#float_btn" ); $( "#innerContent" ).empty(); $( "#innerContentHead" ).empty();  } );
+	$("#tabs").tabs( 'select_tab', 'addbook' );
 }
 function head_failure( httpRequest ){
 	var msg = httpRequest.getResponseHeader("Authority"); 
 	$( "#logon_msg" ).html( "Not authorized. [ "+msg+" ]");
-	$( "#entrysection" ).hide( 1500, function(){ toggleMe( "#float_btn" ); } );
+	toggleMe( "#float_btn" );
 	console.log( "Server Response: "+ msg );
 	$( "#innerContent" ).empty();
 	$( "#innerContentHead" ).empty();
 }
+function clearForm( form ){
+	form.validate().resetForm();
+	form.find("input[type=text], input[type=number], input[type=email], input[type=password], textarea").val("").removeClass('invalid error').prev( 'i' ).removeClass( "invalid error" );
+	form.find( 'select' ).each(function (i, v) {
+		$(this).prop("selectedIndex", 0);
+	});
+	form.find( 'label' ).removeClass('active');
+}
+
 //Display Table content
 function displayTable( jsonArray ){
 	$( "#innerContent" ).empty();
@@ -192,6 +202,7 @@ function presentEntryContacts( account, arrayContact, tableCaption ){
 		clearForm( $( "#contactForm" ) );
 		$( "#contactId" ).text( $(this).find("i").attr('for') );
 		$("#addContact").openModal();
+		$("label[for=name]").addClass('active');
 	});
 	var list = $( "<ul/>").addClass( "collection with-header").attr( "for", account );
 	var h = $( "<li/>" ).addClass("collection-header").append( $("<h4/>").text( tableCaption ).append( sec ) );
@@ -331,13 +342,6 @@ function setNoticeSwitch(value, for_id, for_name ){
 	swtch.append( label );
 	return swtch;
 }
-function clearForm( form ){
-	form.find("input[type=text], input[type=number], input[type=email], input[type=password], textarea").val("");
-	form.find( 'select' ).each(function (i, v) {
-		$(this).prop("selectedIndex", 0);
-	});
-	form.find( 'label' ).removeClass('active');
-}
 //Json creation
 function toJson( form ){
 	return JSON.stringify( formToJson( form ) );
@@ -359,7 +363,6 @@ function formToJson( form, all ){
 function toJsonObject( json_input ){
 	return JSON && JSON.parse( json_input ) || $.parseJSON( json_input );
 }
-
 function setupUpdateForm( entry ){
 	//entryFormModal
 	var div = $( "div[for="+entry.account +"]" );
@@ -414,6 +417,7 @@ function setupUpdateForm( entry ){
 
 function setupNewEntryForm(){
 	$("#entryFormFooter").empty();
+	$( "#addaccount" ).removeAttr( "disabled" );
 	clearForm( $("#entry-form") );
 	$("#entryFormTitle").text( "Add a new address" );
 
@@ -438,7 +442,6 @@ function setupNewEntryForm(){
 	$("#entryFormFooter").append( adbtn );
 	$("#entryFormModal").openModal();
 }
-
 function fillValue( target, value, disableInput ){
 	if ( disableInput === undefined ) disableInput = false;
 	if( value ){ 
@@ -497,12 +500,14 @@ function FormChangesToObject( form ) {
 	//return changed;
 	return jobj;
 }
-
 //Utilities...
 function toggleMe( target, hideF, showF ){
 	if ( $( target ).is(":visible") ){
 		$( target ).fadeOut( 1000, hideF );
+		$( target ).addClass( 'hide' );
+		
 	}else{
+		$( target ).removeClass( 'hide' );
 		$( target ).show( 'bounce', 1000, showF );
 	}
 }
@@ -518,18 +523,23 @@ function flashme( target, color, delaytime, callback ){
 $(function(){
 	$.validator.setDefaults({
 		errorElement : 'div',
-		highlight: function(element) { $(element).closest('input').addClass('invalid error');},  
-		unhighlight: function(element) { $(element).closest('input').removeClass('invalid error');},
+		highlight: function(element) { $(element).closest( '.input-field' ).find("i, input").addClass('invalid error');},  
+		unhighlight: function(element) { $(element).closest( '.input-field' ).find("i, input").removeClass('invalid error');},
 		errorPlacement: function(error, element) { var placement = $(element).data('error');
 			if (placement) { $(placement).append(error); } else { error.insertAfter(element); }
 		}
 	});
-
-	$("#logform").validate({ rules: { username: { required: true, email:true }, password: { required: true, minlength: 5 } } });
-	$("#contactForm").validate( { rules: { name: { required: true, maxlength:63 }, email: { required: false, email: true, maxlength:75 }, phone:{ required: false, maxlength:25 } , description:{ required: false, maxlength:25 }  } });
-
+	$( ".resetform" ).click( function(){
+		clearForm( $(this).prev("form") );
+	});
+	$( "#logout_btn" ).click( function(){
+		$("#addbook_block").addClass( function(){  $(this).addClass('disabled'); toggleMe( "#float_btn" ); 
+			$( "#innerContent" ).empty(); $( "#innerContentHead" ).empty(); $( "#logon_msg" ).empty(); $("#token").val(''); 
+				$("#tabs").tabs('select_tab', 'auth');} );		
+	});
+	
 	$( "#login_btn" ).click( function(){
-		if( $("#logform").valid() ){
+		if( $( "#logform" ).valid() ){
 			$("#token").val(''); 
 			var url = getServiceHost()+"/authority/token?_zipx";
 			var creds = $( "#username" ).val()+"|"+$( "#password" ).val();
@@ -541,17 +551,6 @@ $(function(){
 			});
 		}
 	});
-	$( ".resetform" ).click( function(){
-		clearForm( $(this).prev("form") );
-		$( "#entrysection" ).hide( 1500, function(){
-			$( "#innerContent" ).empty();
-			$( "#innerContentHead" ).empty();
-			$( "#logon_msg" ).empty();
-			$("#token").val('');
-			$( "#float_btn" ).fadeOut( 1000 );
-		} );
-	});
-	
 	$( "#listentry").click( function(e){
 		if( tokenTest() ){
 			if( $("#account").val() ){
@@ -599,5 +598,4 @@ $(function(){
 			});
 		}
 	});
-
 });
